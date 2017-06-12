@@ -1,0 +1,4 @@
+Fetch the data from google_audioset into kaldi format
+
+Import the json file from google_audioset and prepare it to utt2spk for kaldi wav.scp
+ 
