@@ -3,7 +3,7 @@ qlogin -l gpu=1 -now no
 cd /export/b14/jlai/scale/
 
 source /home/nchen/env.sh
-source /export/b14/jlai/jeff/bin/activate
+source /export/b13/jlai/b13/bin/activate
  
 #from naxien 
 
