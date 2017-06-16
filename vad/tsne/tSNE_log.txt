@@ -1,0 +1,43 @@
+Loading data...
+10000
+(10000, 20)
+(10000, 20)
+(10000, 20)
+(30000, 20)
+Reducing dimension...
+[t-SNE] Computing pairwise distances...
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Computed conditional probabilities for sample 1000 / 30000
+[t-SNE] Computed conditional probabilities for sample 2000 / 30000
+[t-SNE] Computed conditional probabilities for sample 3000 / 30000
+[t-SNE] Computed conditional probabilities for sample 4000 / 30000
+[t-SNE] Computed conditional probabilities for sample 5000 / 30000
+[t-SNE] Computed conditional probabilities for sample 6000 / 30000
+[t-SNE] Computed conditional probabilities for sample 7000 / 30000
+[t-SNE] Computed conditional probabilities for sample 8000 / 30000
+[t-SNE] Computed conditional probabilities for sample 9000 / 30000
+[t-SNE] Computed conditional probabilities for sample 10000 / 30000
+[t-SNE] Computed conditional probabilities for sample 11000 / 30000
+[t-SNE] Computed conditional probabilities for sample 12000 / 30000
+[t-SNE] Computed conditional probabilities for sample 13000 / 30000
+[t-SNE] Computed conditional probabilities for sample 14000 / 30000
+[t-SNE] Computed conditional probabilities for sample 15000 / 30000
+[t-SNE] Computed conditional probabilities for sample 16000 / 30000
+[t-SNE] Computed conditional probabilities for sample 17000 / 30000
+[t-SNE] Computed conditional probabilities for sample 18000 / 30000
+[t-SNE] Computed conditional probabilities for sample 19000 / 30000
+[t-SNE] Computed conditional probabilities for sample 20000 / 30000
+[t-SNE] Computed conditional probabilities for sample 21000 / 30000
+[t-SNE] Computed conditional probabilities for sample 22000 / 30000
+[t-SNE] Computed conditional probabilities for sample 23000 / 30000
+[t-SNE] Computed conditional probabilities for sample 24000 / 30000
+[t-SNE] Computed conditional probabilities for sample 25000 / 30000
+[t-SNE] Computed conditional probabilities for sample 26000 / 30000
+[t-SNE] Computed conditional probabilities for sample 27000 / 30000
+[t-SNE] Computed conditional probabilities for sample 28000 / 30000
+[t-SNE] Computed conditional probabilities for sample 29000 / 30000
+[t-SNE] Computed conditional probabilities for sample 30000 / 30000
+[t-SNE] Mean sigma: 1.078162
+[t-SNE] KL divergence after 100 iterations with early exaggeration: 0.773586
+[t-SNE] Error after 125 iterations: 0.773586
+Plotting...
