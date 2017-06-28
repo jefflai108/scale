@@ -58,10 +58,13 @@ def nist():
 	return vad_dic	
 
 def test():
-	a=list(combine_gen())
-	print(len(a))
-        #for i in a: #i is a tuple of 3D tensors 
-        	#print i[0].shape, i[1].shape
+	#a=list(combine_gen())
+	#print(len(a))
+        a=mfcc_gen()
+	count = 0
+	for _ in a: #i is a tuple of 3D tensors 
+        	count += 1
+	print(count)
 
 def combine_gen():
 	#generate (mfcc,vad) tuples. mfcc and vad should be a 3D tensor 
@@ -98,19 +101,36 @@ def vad_gen():
 		for i in np.arange(0, len(value), 1000):
 			temp = value[i:i+1000]
 			temp += [[-1]]*(1000-len(temp))
-			yield np.array(temp)		
+			yield temp		
+
+def vad_array():
+	#return a vad numpy array (3D tensor):
+	a = vad_gen() #generator 
+	vad = []
+	for i in a:	
+		vad.append(i)
+	return np.array(vad)
 
 def mfcc_gen():
 	#mfcc generator 
+	n, batch_size, batch_count = 1000, 1, 0 
 	vad_dic = nist()
 	mfcc_dic = get_frame()
-	for key in vad_dic.keys():
-		value = mfcc_dic[key]
-		for i in np.arange(0, len(value), 1000):
-			temp = value[i:i+1000].tolist()
-			shit = [-1]*20
-			temp += [shit]*(1000-len(temp))
-			yield np.array(temp) 	
+	mfcc = []
+	while True:
+		for key in vad_dic.keys():
+			value = mfcc_dic[key]
+			for i in np.arange(0, len(value), 1000):
+				temp = value[i:i+1000].tolist()
+				shit = [-1]*20
+				temp += [shit]*(1000-len(temp))
+				mfcc.append(temp)
+				batch_count += 1
+				if batch_count == batch_size: 
+					yield np.array(mfcc) 
+					batch_count = 0 	
+					mfcc = []
+		break 
 
 def chunks(dic, n): 
 	### Stackoverflow example Generator
