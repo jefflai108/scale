@@ -17,18 +17,28 @@ def main():
 
 	#load model 
 	print('Loading model...')
-	model = load_model('LSTM_model_1.h5')
+	model = load_model('LSTM_model_2.h5')
 
 	#Evaluate 
 	print('Evaluating...')
 	vad_predict = model.predict(mfcc, batch_size=128) #(300000, 66, 1)
 	
 	max, best_threshold = 0., 0.
-	for threshold in np.arange(0,0.5,0.01):
-		vad_predict = vad_predict > threshold
-		print(vad_predict)
-		print(vad) 
-		accuracy = np.sum(vad_predict==vad)*1./np.size(vad_predict)
+	for threshold in np.arange(0.49,1.0,0.01):
+		total, count = 0, 0
+		for i in np.arange(vad.shape[0]):
+			for j in np.arange(vad.shape[1]):
+				for k in np.arange(vad.shape[2]):
+					if vad[i][j][k] == 0:
+						total += 1
+						if vad_predict[i][j][k] <= threshold: 
+							count += 1 
+					elif vad[i][j][k] == 1:
+						total += 1
+						if vad_predict[i][j][k] >= threshold:
+							count += 1
+					else: continue 	
+		accuracy = count*1./total
 		if (accuracy > max): 
 			max = accuracy
 			best_threshold = threshold 
