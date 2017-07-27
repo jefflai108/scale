@@ -86,14 +86,28 @@ def return_frame():
     print(Y.shape) #(242139118, 20)
     return X, Y 
 
+def frame_content(M): 
+    """
+    2M + 1 input frame maps to 1 output frame 
+    """
+    X, Y = return_frame()
+    final = []
+    for i in np.arange(len(X[M:-M]))+M:
+        final.append(X[i-M:i+M+1])
+    Y = Y[M:-M]
+    X = np.array(final)
+    print(X.shape) #(242139110, 9, 20)
+    print(Y.shape) #(242139110, 30)
+    return X, Y
+
 def split_frame():
     """
     Splits the data into training, validation and testing (50%, 25%, 25%). 
     
     -returns a training data mfcc vad, validation data mfcc vad, testing data mfcc vad
     """
-    X, Y = return_frame()
-    #X, Y = frame_content(4)
+    #X, Y = return_frame()
+    X, Y = frame_content(4)
     
     #train_X = X[:len(X)/2]
     train_X = X[:len(X)*3/5]
@@ -113,106 +127,48 @@ def split_frame():
     print(len(test_X))
     return (train_X,val_X,test_X,train_Y,val_Y,test_Y)
 
-def frame_content(M): 
-    """
-    2M + 1 input frame maps to 1 output frame 
-    """
-    X, Y = return_frame()
-    final = []
-    for i in np.arange(len(X[M:-M]))+M:
-        final.append(X[i-M:i+M+1])
-    Y = Y[M:-M]
-    X = np.array(final)
-    print(X.shape) #(242139110, 9, 20)
-    print(Y.shape) #(242139110, 30)
-    return X, Y
-
-def train_gen(batch, M):
+def train_gen(batch):
     """
     yield tuples of 8k, 16k with argument batch size
 
-    note: steps per epoch should be 242139110*50%/batch 
+    note: steps per epoch should be 242139110/batch 
     """
     train_X, _, _, train_Y, _, _ = split_frame()
     while True:
-        for i in np.arange(0, batch, len(train_X[M:-M])-M)+M:
-            tempx, tempy = [], []
-            for j in np.arange(batch):
-                tempx.append(train_X[i-M+j:i+M+1+j])
-                tempy.append(train_Y[i+j])
-            yield (np.array(tempx), np.array(tempy))
- 
-"""
-        for i in np.arange(len(train_X[M:-M]))+M:
-            tempx, tempy = [], []
-            tempx.append(train_X[i-M:i+M+1])
-            tempy.append(train_Y[i])
-            yield (np.array(tempx), np.array(tempy))
         for i in np.arange(0, batch, len(train_X)):
             temp_X, temp_Y = [], []
             temp_X = train_X[i*batch:(i+1)*batch]
             temp_Y = train_Y[i*batch:(i+1)*batch]
             yield (np.array(temp_X), np.array(temp_Y))
-"""
 
-def re_train_gen(batch, M):
-    train_X, _, _, train_Y, _, _ = split_frame()
-    while True:
-        for i in np.arange(0, batch, len(train_X[M:-M])-M)+M:
-            tempx, tempy = [], []
-            for j in np.arange(batch):
-                tempx.append(train_X[i-M+j:i+M+1+j])
-                tempy.append(train_Y[i+j])
-            yield (np.array(tempx), np.array(tempy))
- 
-def val_gen(batch, M):
+def val_gen(batch):
     _, val_X, _, _, val_Y, _ = split_frame()
     while True:
-        for i in np.arange(0, batch, len(val_X[M:-M])-M)+M:
-            tempx, tempy = [], []
-            for j in np.arange(batch):
-                tempx.append(val_X[i-M+j:i+M+1+j])
-                tempy.append(val_Y[i+j])
-            yield (np.array(tempx), np.array(tempy))
-"""
-    for i in np.arange(0, batch, len(val_X)):
+        for i in np.arange(0, batch, len(val_X)):
             temp_X, temp_Y = [], []
             temp_X = val_X[i*batch:(i+1)*batch]
             temp_Y = val_Y[i*batch:(i+1)*batch]
             yield (np.array(temp_X), np.array(temp_Y))
-"""
-def test_gen(batch, M):
+
+def test_gen(batch):
     _, _, test_X, _, _, test_Y = split_frame()
     while True:
-        for i in np.arange(0, batch, len(test_X[M:-M])-M)+M:
-            tempx, tempy = [], []
-            for j in np.arange(batch):
-                tempx.append(test_X[i-M+j:i+M+1+j])
-                tempy.append(test_Y[i+j])
-            yield (np.array(tempx), np.array(tempy))
-"""
-    for i in np.arange(0, batch, len(test_X)):
+        for i in np.arange(0, batch, len(test_X)):
             temp_X, temp_Y = [], []
             temp_X = test_X[i*batch:(i+1)*batch]
             temp_Y = test_Y[i*batch:(i+1)*batch]
             yield (np.array(temp_X), np.array(temp_Y))
-"""
-def gen_test():
-    a = train_gen(4)
-    for i, u in a:
-        print i.shape, u.shape
 
-def re_gen_test():
-    a = re_train_gen(64, 4)
+def gen_test():
+    a = train_gen(64)
     for i, u in a:
         print i.shape, u.shape
 
 if __name__ == '__main__':
     #test()
     #return_frame()
-    #train_gen(4)
+    #train_gen(64)
     #gen_test()
-    re_gen_test()
     #frame_content(4)
     #combine_mfcc_id()
-    #split_frame()
+    split_frame()
